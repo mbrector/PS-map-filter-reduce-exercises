@@ -26,7 +26,12 @@ const transformersMap = () => {
           team: 'Decepticon'
         }
       ];
+      const forms = transformers.map(transformer=>{
+        return transformer.form
+      })
+      console.log(forms)
 }
+transformersMap()
 /*
 Filter Transformers
 Using filter, return an array of transformer objects that have the 'team' property of 'Autobot'
@@ -67,9 +72,12 @@ const transformersFilter = () => {
           team: 'Decepticon'
         }
       ]
-
+      let autobots = transformers.filter(transformer=>{
+        return transformer.team == 'Autobot'
+    })
+    console.log(autobots)
 }
-
+transformersFilter()
 /*
 Reduce Transformers
 Using reduce, return an object that has a count for each team of transformer
@@ -101,8 +109,17 @@ const reduceTransformers = () => {
           team: 'Decepticon'
         }
       ]
+      let count = transformers.reduce((acc, cur)=>{
+        if(acc[cur.team]){
+          acc[cur.team]++
+        }else{
+          acc[cur.team] = 1
+        }
+        return acc
+    }, {})
+     console.log(count)
 }
-
+reduceTransformers()
 
 
 /*
@@ -115,8 +132,15 @@ Use filter and reduce
 //result: 42
 const sumPositiveElement = () => {
     const input = [ 1, -4, 12, 0, -3, 29, -150]
-}
-
+    const pos = input.filter((num)=>{
+      return num > 0
+    })
+    const total = pos.reduce((acc, cur)=>{
+      return acc + cur
+    })
+    console.log(total)
+  }
+sumPositiveElement()
 
 
 /* 
@@ -125,10 +149,26 @@ Calculate the mean and median values of the number elements from the input array
 
 Use: reduce, sort, Math.abs
 */
-//result: { mean: 38.5, median: 32 }
+//result: { mean: 38.5, median: 32 } <=should be 39
 const medianMean = () => {
     const input = [12, 46, 32, 64]
+    const sorted = input.sort()
+    const mean = input.reduce((acc, cur)=>{
+      return acc + cur
+    })/input.length
+
+    const halfway = sorted.length/2
+    let median
+
+    if(halfway % 2 == 0){
+      median = (sorted[halfway-1] + sorted[halfway]) /2
+    }else{
+      median = sorted[Math.floor(half)]
+    }
+
+    console.log({mean, median})
 }
+medianMean()
 
 
 /*
@@ -139,8 +179,10 @@ Use .map , .split , .join
 //result: 'GRRM'
 const nameInitials = () => {
     const input = 'George Raymond Richard Martin';
+    inits = input.split(" ").map(e=>e[0]).join("")
+    console.log(inits)
 }
-
+nameInitials()
 /*
 Age difference from the youngest and oldest
 Find the difference in age between the oldest and youngest family members, and return their respective ages and the age difference.
@@ -171,5 +213,10 @@ const ageDifference = () => {
           age: 65,
         }
       ];
-}
+      let ages = input.map(e=>e.age)
+        let oldest = Math.max(...ages)
+        let youngest = Math.min(...ages)
 
+        return [youngest, oldest, (oldest - youngest)]
+}
+console.log(ageDifference())
